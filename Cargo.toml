@@ -1,0 +1,17 @@
+[package]
+name = "waveform-rs"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+console_error_panic_hook = "0.1.7"
+rayon = "1.5"
+symphonia = { version = "0.5", features = ["mp3", "wav", "flac"] }
+
+[profile.release]
+lto = true
+opt-level = 's'
