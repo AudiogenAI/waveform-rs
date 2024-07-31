@@ -117,10 +117,7 @@ fn filter_data(
     samples_per_second: Option<u16>,
 ) -> Vec<f32> {
     let samples_per_second = samples_per_second.unwrap_or(100);
-    let samples = max(
-        1000,
-        (duration * samples_per_second as f32).floor() as usize,
-    );
+    let samples = (duration * samples_per_second as f32).floor() as usize;
     let block_size = audio_buffer.len() / samples;
 
     audio_buffer
