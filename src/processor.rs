@@ -9,9 +9,17 @@ use symphonia::core::io::MediaSourceStream;
 use symphonia::core::meta::MetadataOptions;
 use symphonia::core::probe::Hint;
 
-pub fn audio_to_waveform(data: Vec<u8>) -> Result<Vec<f32>, String> {
+/// Converts audio data to a waveform.
+/// data: The audio data to convert.
+/// samples_per_second: The number of samples per second to output, the default
+/// is 100.
+pub fn audio_to_waveform(
+    data: Vec<u8>,
+    samples_per_second: Option<u16>,
+) -> Result<Vec<f32>, String> {
     let (audio_buffer, duration) = read_sample(data)?;
-    let filtered_data = filter_data(&audio_buffer, duration);
+    let filtered_data =
+        filter_data(&audio_buffer, duration, samples_per_second);
     let normalized_data = normalize_data(&filtered_data);
 
     Ok(normalized_data)
@@ -103,8 +111,12 @@ fn process_audio_buffer(
     Ok(())
 }
 
-fn filter_data(audio_buffer: &[f32], duration: f32) -> Vec<f32> {
-    let samples_per_second = 100;
+fn filter_data(
+    audio_buffer: &[f32],
+    duration: f32,
+    samples_per_second: Option<u16>,
+) -> Vec<f32> {
+    let samples_per_second = samples_per_second.unwrap_or(100);
     let samples = max(
         1000,
         (duration * samples_per_second as f32).floor() as usize,
@@ -157,7 +169,7 @@ mod tests {
     fn test_audio_to_waveform_works_with_wav() {
         let mock_sample_path = "mocks/mock-audio.wav".to_string();
         let data = read_file(&mock_sample_path).expect("read_file");
-        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        let res = audio_to_waveform(data, None).expect("audio_to_waveform");
         res_is_ok(res);
     }
 
@@ -165,7 +177,7 @@ mod tests {
     fn test_audio_to_waveform_works_with_flac() {
         let mock_sample_path = "mocks/mock-audio.flac".to_string();
         let data = read_file(&mock_sample_path).expect("read_file");
-        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        let res = audio_to_waveform(data, None).expect("audio_to_waveform");
         res_is_ok(res);
     }
 
@@ -173,7 +185,7 @@ mod tests {
     fn test_audio_to_waveform_works_with_mp3() {
         let mock_sample_path = "mocks/mock-audio.mp3".to_string();
         let data = read_file(&mock_sample_path).expect("read_file");
-        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        let res = audio_to_waveform(data, None).expect("audio_to_waveform");
         res_is_ok(res);
     }
 
@@ -181,7 +193,7 @@ mod tests {
     fn test_audio_to_waveform_works_with_aif() {
         let mock_sample_path = "mocks/mock-audio.AIF".to_string();
         let data = read_file(&mock_sample_path).expect("read_file");
-        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        let res = audio_to_waveform(data, None).expect("audio_to_waveform");
         res_is_ok(res);
     }
 
@@ -189,7 +201,7 @@ mod tests {
     fn test_audio_to_waveform_works_with_ogg() {
         let mock_sample_path = "mocks/mock-audio.ogg".to_string();
         let data = read_file(&mock_sample_path).expect("read_file");
-        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        let res = audio_to_waveform(data, None).expect("audio_to_waveform");
         res_is_ok(res);
     }
 
@@ -198,7 +210,7 @@ mod tests {
     fn test_audio_to_waveform_works_with_mkv() {
         let mock_sample_path = "mocks/mock-audio.mkv".to_string();
         let data = read_file(&mock_sample_path).expect("read_file");
-        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        let res = audio_to_waveform(data, None).expect("audio_to_waveform");
         res_is_ok(res);
     }
 
@@ -207,7 +219,7 @@ mod tests {
     fn test_audio_to_waveform_works_with_webm() {
         let mock_sample_path = "mocks/mock-audio.webm".to_string();
         let data = read_file(&mock_sample_path).expect("read_file");
-        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        let res = audio_to_waveform(data, None).expect("audio_to_waveform");
         res_is_ok(res);
     }
 }
