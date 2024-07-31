@@ -10,7 +10,7 @@ crate-type = ["cdylib", "rlib"]
 wasm-bindgen = "0.2"
 console_error_panic_hook = "0.1.7"
 rayon = "1.5"
-symphonia = { version = "0.5", features = ["mp3", "wav", "flac"] }
+symphonia = { version = "0.5", features = ["all", "opt-simd"] }
 
 [profile.release]
 lto = true

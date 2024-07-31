@@ -168,4 +168,46 @@ mod tests {
         let res = audio_to_waveform(data).expect("audio_to_waveform");
         res_is_ok(res);
     }
+
+    #[test]
+    fn test_audio_to_waveform_works_with_mp3() {
+        let mock_sample_path = "mocks/mock-audio.mp3".to_string();
+        let data = read_file(&mock_sample_path).expect("read_file");
+        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        res_is_ok(res);
+    }
+
+    #[test]
+    fn test_audio_to_waveform_works_with_aif() {
+        let mock_sample_path = "mocks/mock-audio.AIF".to_string();
+        let data = read_file(&mock_sample_path).expect("read_file");
+        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        res_is_ok(res);
+    }
+
+    #[test]
+    fn test_audio_to_waveform_works_with_ogg() {
+        let mock_sample_path = "mocks/mock-audio.ogg".to_string();
+        let data = read_file(&mock_sample_path).expect("read_file");
+        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        res_is_ok(res);
+    }
+
+    #[test]
+    #[ignore = "mkv is unsupported for now"]
+    fn test_audio_to_waveform_works_with_mkv() {
+        let mock_sample_path = "mocks/mock-audio.mkv".to_string();
+        let data = read_file(&mock_sample_path).expect("read_file");
+        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        res_is_ok(res);
+    }
+
+    #[test]
+    #[ignore = "webm is unsupported for now"]
+    fn test_audio_to_waveform_works_with_webm() {
+        let mock_sample_path = "mocks/mock-audio.webm".to_string();
+        let data = read_file(&mock_sample_path).expect("read_file");
+        let res = audio_to_waveform(data).expect("audio_to_waveform");
+        res_is_ok(res);
+    }
 }
