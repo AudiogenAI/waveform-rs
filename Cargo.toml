@@ -1,6 +1,6 @@
 [package]
-name = "waveform-rs"
-version = "0.2.0"
+name = "audio-rs"
+version = "0.2.1"
 edition = "2021"
 
 [lib]

@@ -156,11 +156,11 @@ fn filter_data_v2(
     audio_buffer
         .par_chunks(block_size)
         .map(|chunk| {
-            chunk
-                .iter()
-                .copied()
-                .max_by(|a, b| a.abs().partial_cmp(&b.abs()).unwrap_or(std::cmp::Ordering::Equal))
-                .unwrap_or(0.0)
+            if chunk.is_empty() {
+                0.0
+            } else {
+                chunk.iter().sum::<f32>() / chunk.len() as f32
+            }
         })
         .collect()
 }
